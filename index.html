@@ -1,0 +1,127 @@
+<html>
+<head>
+
+	<meta charset="utf-8">
+
+	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js'></script>
+	<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
+	<script type="text/javascript" src='scripts/jquery.fancytree.min.js'></script>
+	<script type="text/javascript" src='scripts/deep-model.js'></script>
+	<script type="text/javascript" src='scripts/userSelector.js'></script>
+	<script type="text/javascript" src='scripts/common.js'></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="styles/fancytree/ui.fancytree.min.css">
+	<link rel="stylesheet" type="text/css" href="styles/userSelector.css">
+
+	<script id="userSelectorTemplate" type="text/template">
+		<input type="hidden" id="<%= model.valueElementId %>" value="<%= model.selectedId %>" />
+		<input type="hidden" class="selectedIdOld" value="<%= model.selectedId %>" />
+		<input type="hidden" class="selectedNameOld" value="<%= model.selectedName %>" />
+		<input type="text" class="form-control" value="<%= model.selectedName %>" title="Enter 2 letters minimum" />
+		<button type="button" class="btn btn-default openSelector">
+		    <span class="glyphicon glyphicon-th-list"></span>
+		</button>
+		<button type="button" class="btn btn-default clearSelection">
+		    <span class="glyphicon glyphicon-remove"></span>
+		</button>
+	</script>
+
+	<script id="departmentTreeTemplate" type="text/template">
+		<div id="tree">
+		    <ul id="treeData" style="display: none;">
+		        <% _(collection).each(function(department) { %>
+		        <li id="depId_<%= department.Id %>" class="folder <%=(function(){
+		                    return _(department.Value).findWhere({Id: selectedId})!=undefined? 'expanded':'';
+		                })()%>">
+		            <%= department.Name %>
+		            <% if(department.Value != undefined && department.Value.length > 0) { %>
+		            <ul>
+		                <% _(department.Value).each(function(user) { %>
+		                <li id="userId_<%= user.Id %>" class="<%= user.Id == selectedId? 'selected':'' %>"><%= user.Name %></li>
+		                <% });
+		                } %>
+		            </ul>
+		        <% }); %>
+		    </ul>
+		</div>
+	</script>
+
+
+	<script type="text/javascript">
+	$(document).ready(function  () {
+		if ($.fn.button.noConflict) {
+            $.fn.btn = $.fn.button.noConflict();
+        }
+
+        var exampleCollection = [
+        	{
+        		Id: 1,
+        		Name: "Departmant1",
+        		Selected: false,
+        		Value: [
+        			{
+        				Id: 1,
+        				Name: "Kim Kardashian",
+        				Selected: false
+        			},
+        			{
+        				Id: 2,
+        				Name: "Taylor Swift",
+        				Selected: false
+        			},
+        			{
+        				Id: 3,
+        				Name: "Selena Gomez",
+        				Selected: false
+        			}
+        		]
+        	},
+        	{
+        		Id: 2,
+        		Name: "Departmant2",
+        		Selected: false,
+        		Value: [
+        			{
+        				Id: 11,
+        				Name: "Justin Timberlake",
+        				Selected: false
+        			},
+        			{
+        				Id: 12,
+        				Name: "Pharrell Williams",
+        				Selected: false
+        			},
+        			{
+        				Id: 13,
+        				Name: "James Franco",
+        				Selected: false
+        			}
+        		]
+        	}
+        ];
+
+        var us = new UserSelector(
+        	{ 
+        		model: new UserSelectorModel(
+        			{ 
+        				valueElementId: 'exampleId', 
+        				selectedId: undefined
+        			}), 
+        		collection: new Backbone.Collection(exampleCollection) 
+        	}
+        );
+
+        $("#example").html(us.el);
+	});
+	</script>
+</head>
+<body>
+	<div id='example'>
+		
+	</div>
+</body>
+</html>

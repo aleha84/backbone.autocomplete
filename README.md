@@ -59,3 +59,5 @@ var us = new UserSelector(
 $("#example").html(us.el);
 
 ```
+Demo: 
+http://aleha84.github.io/backbone.autocomplete/

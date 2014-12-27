@@ -6,12 +6,17 @@ backbone autocomplete with ability to enter part of entity name or select it fro
 It is not out-of-a-box solution. 
 
 Dependencies:
+
 JQuery
 
 JQuery-UI
+
 underscorejs
+
 backbonejs
+
 jquery.fancytree
+
 backbone.deep-model
 
 

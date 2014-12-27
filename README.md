@@ -7,6 +7,7 @@ It is not out-of-a-box solution.
 
 Dependencies:
 JQuery
+
 JQuery-UI
 underscorejs
 backbonejs

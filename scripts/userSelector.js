@@ -211,11 +211,12 @@ var UserSelector = Backbone.View.extend({
         {
             
             var mathedUsers = _(this.model.get('users')).filter(function (item) { return item.Name.toLowerCase().indexOf(value.toLowerCase()) != -1; });
-            if(mathedUsers!=undefined && mathedUsers.length > 0)
+            $(".userSearchResults").remove();
+            var resultsContainer = undefined;
+            if (mathedUsers != undefined && mathedUsers.length > 0)
             {
                 mathedUsers = _(mathedUsers).sortBy('Name');
-                $(".userSearchResults").remove();
-                var resultsContainer = ($("<div />", {
+                resultsContainer = ($("<div />", {
                     class: 'userSearchResults',
                     css: {
                         'max-width': this.model.get('maxWidth'),
@@ -228,8 +229,15 @@ var UserSelector = Backbone.View.extend({
                         userId: item.Id
                         }));
                 });
-                this.$el.append(resultsContainer);
+                
             }
+            else {
+                resultsContainer = ($("<div />", {
+                    class: 'userSearchResults',
+                    text: "No results"
+                }));
+            }
+            this.$el.append(resultsContainer);
         }
     },
     hideSearchResults: function (event, undo) {

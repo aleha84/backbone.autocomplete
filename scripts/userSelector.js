@@ -4,8 +4,7 @@ var UserSelectorModel = Backbone.DeepModel.extend({
         "selectedName": '',
         "minCharsToSearch": 2,
         "maxHeight": '200px',
-        "maxWidth": '220px',
-        "valueElementId": ''
+        "maxWidth": '220px'
     }
 });
 
@@ -31,6 +30,12 @@ var UserSelector = Backbone.View.extend({
             this.model.set('users', users);
         }
 
+
+        var editable = this.model.get('editable');
+        if (editable == undefined)
+        {
+            this.model.set('editable',true);
+        }
 
         if(this.el!=undefined)
         {
@@ -141,7 +146,7 @@ var UserSelector = Backbone.View.extend({
     setSelected: function (id, name) {
         id = parseInt(id);
         this.$(".form-control, .selectedNameOld").val(name);
-        this.$("#" + this.model.get('valueElementId') + ", .selectedIdOld").val(id);
+        this.$(".selectedIdOld").val(id);
         this.model.set({
             selectedId: id,
             selectedName: name
@@ -254,7 +259,6 @@ var UserSelector = Backbone.View.extend({
         }
         if (undo) {
             this.$(".form-control").val(this.$(".selectedNameOld").val());
-            this.$("#" + this.model.get('valueElementId')).val(this.$(".selectedIdOld").val());
         }
         
     },

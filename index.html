@@ -19,16 +19,17 @@
 	<link rel="stylesheet" type="text/css" href="styles/userSelector.css">
 
 	<script id="userSelectorTemplate" type="text/template">
-		<input type="hidden" id="<%= model.valueElementId %>" value="<%= model.selectedId %>" />
 		<input type="hidden" class="selectedIdOld" value="<%= model.selectedId %>" />
 		<input type="hidden" class="selectedNameOld" value="<%= model.selectedName %>" />
-		<input type="text" class="form-control" value="<%= model.selectedName %>" title="Enter 2 letters minimum" />
-		<button type="button" class="btn btn-default openSelector">
-		    <span class="glyphicon glyphicon-th-list"></span>
-		</button>
-		<button type="button" class="btn btn-default clearSelection">
-		    <span class="glyphicon glyphicon-remove"></span>
-		</button>
+		<input type="text" <%= !model.editable? 'readonly': ''  %> class="form-control" value="<%= model.selectedName %>" title="Enter 2 letters minimum" />
+		<% if(model.editable) { %>
+            <button type="button" class="btn btn-default openSelector">
+    		    <span class="glyphicon glyphicon-th-list"></span>
+    		</button>
+    		<button type="button" class="btn btn-default clearSelection">
+    		    <span class="glyphicon glyphicon-remove"></span>
+    		</button>
+        <% } %>
 	</script>
 
 	<script id="departmentTreeTemplate" type="text/template">
@@ -109,20 +110,55 @@
         	{ 
         		model: new UserSelectorModel(
         			{ 
-        				valueElementId: 'exampleId', 
         				selectedId: undefined
         			}), 
         		collection: new Backbone.Collection(exampleCollection) 
         	}
         );
 
-        $("#example").html(us.el);
+        var usRO = new UserSelector(
+            { 
+                model: new UserSelectorModel(
+                    { 
+                        selectedId: undefined,
+                        editable: false
+                    }), 
+                collection: new Backbone.Collection(exampleCollection) 
+            }
+        );
+
+        var usSel = new UserSelector(
+            { 
+                model: new UserSelectorModel(
+                    { 
+                        selectedId: 12,
+                    }), 
+                collection: new Backbone.Collection(exampleCollection) 
+            }
+        );
+
+
+        $("#example1").html(us.el);
+        $("#example2").html(usRO.el);
+        $("#example3").html(usSel.el);
 	});
 	</script>
 </head>
 <body>
-	<div id='example'>
+    <h2>Simple example</h2>
+	<div id='example1'>
 		
 	</div>
+
+    <h2>Readonly example</h2>
+    <div id='example2'>
+        
+    </div>
+
+    <h2>Preselected example</h2>
+    <div id='example3'>
+        
+    </div>
+
 </body>
 </html>

@@ -16,7 +16,7 @@ Dependencies:
 
 API:
 
-Mathod  | Parameter | Description
+Method  | Parameter | Description
 ------------- | -------------  | ------------- 
 getId  | undefIfZero | returns id of selected value. If `undefIfZero` is true and result is 0 undefined will be returned, otherwise 0
 getName | - | returns name of selected value
@@ -49,6 +49,13 @@ var exampleCollection = [
 
 ```
 
+Initialize options:
+
+Name  | Description
+------------- | -------------  
+selectedId | renders control with selected value by its id
+collection | collection of departments with employees
+
 
 Example: 
 
@@ -58,7 +65,6 @@ var us = new UserSelector(
 	{ 
 		model: new UserSelectorModel(
 			{ 
-				valueElementId: 'exampleId', 
 				selectedId: undefined
 			}), 
   		collection: new Backbone.Collection(exampleCollection) 
